@@ -22,7 +22,14 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
+dependencies {
+    implementation platform('com.google.firebase:firebase-bom:28.4.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
+}
 
 android {
     compileSdkVersion 30
@@ -33,6 +40,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
+        multiDexEnabled true
         versionName flutterVersionName
     }
 
