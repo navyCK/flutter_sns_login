@@ -4,6 +4,8 @@ import 'package:flutter_sns_login/screen/intro_screen.dart';
 import 'package:flutter_sns_login/screen/login_screen.dart';
 import 'package:kakao_flutter_sdk/all.dart';
 
+import 'app.dart';
+
 
 void main() {
   KakaoContext.clientId = "1128cbbb1c703ee9eaa67949532000be";
@@ -22,7 +24,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => IntroScreen(),
+        '/': (context) => App(),
         '/login': (context) => LoginScreen(),
         '/main': (context) => MainScreen(),
       },

@@ -17,7 +17,6 @@ class _IntroScreenState extends State<IntroScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("로딩화면"),
                 ElevatedButton(onPressed: () {
                   Navigator.pushNamed(context, '/main');
                 }, child: Text("메인화면")),
