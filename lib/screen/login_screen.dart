@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk/all.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -80,6 +83,34 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  Future<UserCredential> signInWithFacebook() async {
+    // Trigger the sign-in flow
+    final LoginResult loginResult = await FacebookAuth.instance.login();
+
+    // Create a credential from the access token
+    final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken!.token);
+
+    // Once signed in, return the UserCredential
+    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -91,16 +122,55 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: CupertinoButton(
-                onPressed: _isKakaoTalkInstalled ? _loginWithTalk : _loginWithKakao,
-                color: Colors.yellow,
-                child: Text(
-                  '카카오톡 로그인',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.black87,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: CupertinoButton(
+                  color: Colors.blue,
+                  onPressed: signInWithGoogle,
+                  child: Text(
+                    '구글 로그인',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: CupertinoButton(
+                  color: Colors.indigo,
+                  onPressed: signInWithFacebook,
+                  child: Text(
+                    '페이스북 로그인',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: CupertinoButton(
+                  onPressed: _isKakaoTalkInstalled ? _loginWithTalk : _loginWithKakao,
+                  color: Colors.yellow,
+                  child: Text(
+                    '카카오톡 로그인',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black87,
+                    ),
                   ),
                 ),
               ),
@@ -134,7 +204,7 @@ class LoginDone extends StatelessWidget {
   Future<bool> _getUser() async {
     bool userBool = false;
     try {
-      User user = await UserApi.instance.me();
+      var user = await UserApi.instance.me();
       print(user.toString());
       userBool = true;
     } on KakaoAuthException {

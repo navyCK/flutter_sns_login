@@ -16,6 +16,10 @@ dependencies:
 
   # http 통신
   http: 0.13.3
+  # 구글 로그인
+  google_sign_in: ^5.0.7
+  # 페이스북 로그인
+  flutter_facebook_auth: ^3.5.1
   # 카카오톡 로그인
   kakao_flutter_sdk: ^0.7.1
   dio:
@@ -25,6 +29,7 @@ dependencies:
   shared_preferences:
   # firebase 사용을 위한 라이브러리
   firebase_core: ^1.6.0
+  firebase_auth: ^3.1.0
 
 
 dev_dependencies:
