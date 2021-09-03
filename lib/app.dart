@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sns_login/home.dart';
+import 'package:flutter_sns_login/screen/main_screen.dart';
 
 class App extends StatelessWidget {
   @override
@@ -15,7 +15,7 @@ class App extends StatelessWidget {
         }
         if (snapshot.connectionState == ConnectionState.done) {
           print("Firebase load.");
-          return Home();
+          return MainScreen();
         }
         return CircularProgressIndicator();
       },
