@@ -36,7 +36,6 @@ class _MainScreenState extends State<MainScreen> {
                   },
                     child: Text("성경 뷰어"),),
                   Text("${snapshot.data!.displayName}님 환영합니다."),
-                  Text("${snapshot.data!.displayName}님의 이메일은 ${snapshot.data!.email}입니다."),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
