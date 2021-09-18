@@ -30,11 +30,6 @@ class _MainScreenState extends State<MainScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Text("메인화면"),
-                  // ElevatedButton(onPressed: () {
-                  //   Navigator.pushNamed(context, '/bible');
-                  // },
-                  //   child: Text("성경 뷰어"),),
                   Text("${snapshot.data!.displayName}님 환영합니다."),
                   Padding(
                     padding: const EdgeInsets.all(8.0),

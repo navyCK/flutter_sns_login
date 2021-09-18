@@ -16,6 +16,37 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
+  void _onLoading() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: new Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  new CircularProgressIndicator(),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: new Text("로그인 중..."),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+    new Future.delayed(new Duration(seconds: 3), () {
+      Navigator.pop(context); //pop dialog
+      // _login();
+    });
+  }
+
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -29,6 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
       idToken: googleAuth.idToken,
     );
 
+    Navigator.pop(context);
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
@@ -118,6 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
@@ -190,6 +223,23 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
 
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: CupertinoButton(
+                  onPressed: _onLoading,
+                  color: Colors.black,
+                  child: Text(
+                    '로딩',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
 
           ],
         ),

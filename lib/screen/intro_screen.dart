@@ -7,6 +7,7 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,14 +18,9 @@ class _IntroScreenState extends State<IntroScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
-                // ElevatedButton(onPressed: () {
-                //   Navigator.pushNamed(context, '/main');
-                // }, child: Text("메인화면")),
-                
                 ElevatedButton(onPressed: () {
                   Navigator.pushNamed(context, '/login');
-                }, child: Text("로그인 화면"))
+                  }, child: Text("로그인 화면"))
               ],
             ),
           ),
