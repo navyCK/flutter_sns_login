@@ -41,7 +41,8 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       },
     );
-    new Future.delayed(new Duration(seconds: 3), () {
+    new Future.delayed(new Duration(seconds: 2), () {
+      Navigator.pop(context); //pop dialog
       Navigator.pop(context); //pop dialog
       // _login();
     });
@@ -60,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
       idToken: googleAuth.idToken,
     );
 
-    Navigator.pop(context);
+    _onLoading();
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
