@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
     // Create a credential from the access token
     final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
-    Navigator.pop(context);
+    _onLoading();
     // Once signed in, return the UserCredential
     return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
   }
@@ -107,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
     var response = await http.post(
         Uri.parse('https://pinnate-alpine-passionfruit.glitch.me/callbacks/kakao/token'),
         body: {"accessToken": bodys['access_token']});
-    Navigator.pop(context);
+    _onLoading();
     return FirebaseAuth.instance.signInWithCustomToken(response.body);
   }
 
@@ -138,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
     var response = await http.post(
         Uri.parse("https://pinnate-alpine-passionfruit.glitch.me/callbacks/naver/token"),
         body: {"accessToken": bodys['access_token']});
-    Navigator.pop(context);
+    _onLoading();
     return FirebaseAuth.instance.signInWithCustomToken(response.body);
   }
 
