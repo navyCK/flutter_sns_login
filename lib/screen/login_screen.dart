@@ -8,6 +8,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -15,6 +16,18 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool _isDialogVisible = false; // 다이얼로그 visible
+
+  void _showDialog() {
+    setState(() {
+      _isDialogVisible = true;
+    });
+    Future.delayed(Duration(seconds: 2), () {
+      setState(() {
+        _isDialogVisible = false;
+      });
+    });
+  }
 
   void _onLoading() {
     showDialog(
@@ -53,7 +66,8 @@ class _LoginScreenState extends State<LoginScreen> {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser!.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -71,7 +85,8 @@ class _LoginScreenState extends State<LoginScreen> {
     final LoginResult loginResult = await FacebookAuth.instance.login();
 
     // Create a credential from the access token
-    final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken!.token);
+    final OAuthCredential facebookAuthCredential =
+        FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
     _onLoading();
     // Once signed in, return the UserCredential
@@ -85,13 +100,12 @@ class _LoginScreenState extends State<LoginScreen> {
       'client_id': "d8625d4e2554d69009f8ffb7f3d30e64",
       'response_mode': 'form_post',
       'redirect_uri':
-      'https://pinnate-alpine-passionfruit.glitch.me/callbacks/kakao/sign_in',
+          'https://pinnate-alpine-passionfruit.glitch.me/callbacks/kakao/sign_in',
       'state': clientState,
     });
 
     final result = await FlutterWebAuth.authenticate(
-        url: url.toString(),
-        callbackUrlScheme: "webauthcallback");
+        url: url.toString(), callbackUrlScheme: "webauthcallback");
     final body = Uri.parse(result).queryParameters;
     print(body["code"]);
 
@@ -99,13 +113,14 @@ class _LoginScreenState extends State<LoginScreen> {
       'grant_type': 'authorization_code',
       'client_id': "d8625d4e2554d69009f8ffb7f3d30e64",
       'redirect_uri':
-      'https://pinnate-alpine-passionfruit.glitch.me/callbacks/kakao/sign_in',
+          'https://pinnate-alpine-passionfruit.glitch.me/callbacks/kakao/sign_in',
       'code': body["code"],
     });
     var responseTokens = await http.post(Uri.parse(tokenUrl.toString()));
     Map<String, dynamic> bodys = json.decode(responseTokens.body);
     var response = await http.post(
-        Uri.parse('https://pinnate-alpine-passionfruit.glitch.me/callbacks/kakao/token'),
+        Uri.parse(
+            'https://pinnate-alpine-passionfruit.glitch.me/callbacks/kakao/token'),
         body: {"accessToken": bodys['access_token']});
     _onLoading();
     return FirebaseAuth.instance.signInWithCustomToken(response.body);
@@ -117,13 +132,12 @@ class _LoginScreenState extends State<LoginScreen> {
       'response_type': 'code',
       'client_id': "VVq0rj0r52jTE2vV9lqQ",
       'redirect_uri':
-      'https://pinnate-alpine-passionfruit.glitch.me/callbacks/naver/sign_in',
+          'https://pinnate-alpine-passionfruit.glitch.me/callbacks/naver/sign_in',
       'state': clientState,
     });
 
     final result = await FlutterWebAuth.authenticate(
-        url: url.toString(),
-        callbackUrlScheme: "webauthcallback");
+        url: url.toString(), callbackUrlScheme: "webauthcallback");
     final body = Uri.parse(result).queryParameters;
 
     final tokenUrl = Uri.https('nid.naver.com', '/oauth2.0/token', {
@@ -136,12 +150,12 @@ class _LoginScreenState extends State<LoginScreen> {
     var responseTokens = await http.post(Uri.parse(tokenUrl.toString()));
     Map<String, dynamic> bodys = json.decode(responseTokens.body);
     var response = await http.post(
-        Uri.parse("https://pinnate-alpine-passionfruit.glitch.me/callbacks/naver/token"),
+        Uri.parse(
+            "https://pinnate-alpine-passionfruit.glitch.me/callbacks/naver/token"),
         body: {"accessToken": bodys['access_token']});
     _onLoading();
     return FirebaseAuth.instance.signInWithCustomToken(response.body);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -151,43 +165,14 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: CupertinoButton(
-                  color: Colors.blue,
-                  onPressed: signInWithGoogle,
-                  child: Text(
-                    '구글 로그인',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
+            SignInButton(
+              Buttons.Google,
+              onPressed: signInWithGoogle,
             ),
-
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: CupertinoButton(
-                  color: Colors.indigo,
-                  onPressed: signInWithFacebook,
-                  child: Text(
-                    '페이스북 로그인',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
+            SignInButton(
+              Buttons.Facebook,
+              onPressed: signInWithFacebook,
             ),
-
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
@@ -205,7 +190,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
@@ -223,13 +207,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: CupertinoButton(
-                  onPressed: _onLoading,
+                  onPressed: _showDialog,
                   color: Colors.black,
                   child: Text(
                     '로딩',
@@ -241,7 +224,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-
+            Visibility(
+                visible: _isDialogVisible,
+                child: Container(
+                  color: Colors.black26,
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: CircularProgressIndicator(),
+                  ),
+                ))
           ],
         ),
       ),
