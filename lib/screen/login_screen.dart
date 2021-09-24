@@ -8,7 +8,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:uuid/uuid.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -162,81 +161,76 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: SafeArea(
         minimum: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SignInButton(
-              Buttons.Google,
-              onPressed: signInWithGoogle,
-            ),
-            SignInButton(
-              Buttons.Facebook,
-              onPressed: signInWithFacebook,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: CupertinoButton(
-                  onPressed: signInWithKaKao,
-                  color: Colors.yellow,
-                  child: Text(
-                    '카카오톡 로그인',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.black87,
-                    ),
-                  ),
-                ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              buildElevatedButton(
+                  signInWithGoogle, "assets/icon/icon_google.png", "구글 로그인", Color(0xffffffff), Colors.black54
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: CupertinoButton(
-                  onPressed: signInWithNaver,
-                  color: Colors.green,
-                  child: Text(
-                    '네이버 로그인',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+
+              buildElevatedButton(
+                  signInWithFacebook, "assets/icon/icon_facebook.png", "페이스북 로그인", Color(0xff3B5998), Colors.white
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: CupertinoButton(
-                  onPressed: _showDialog,
-                  color: Colors.black,
-                  child: Text(
-                    '로딩',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+
+              buildElevatedButton(
+                  signInWithKaKao, "assets/icon/icon_kakao.png", "카카오 로그인", Color(0xffFEE500), Colors.black87
               ),
-            ),
-            Visibility(
-                visible: _isDialogVisible,
-                child: Container(
-                  color: Colors.black26,
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: CircularProgressIndicator(),
-                  ),
-                ))
-          ],
+
+              buildElevatedButton(
+                  signInWithNaver, "assets/icon/icon_naver.png", "네이버 로그인", Color(0xff1DC800), Colors.white
+              ),
+
+              buildElevatedButton(
+                  _showDialog, "assets/icon/icon_email.png", "이메일 로그인", Color(0xff000000), Colors.white
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text("또는"),
+              ),
+
+              buildElevatedButton(
+                  _showDialog, "assets/icon/icon_guest.png", "게스트로 이용", Color(0xffDCDCDC), Colors.black87
+              ),
+
+
+
+
+              Visibility(
+                  visible: _isDialogVisible,
+                  child: Container(
+                    color: Colors.black26,
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: CircularProgressIndicator(),
+                    ),
+                  ))
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  ElevatedButton buildElevatedButton(Function() portal, String imgSrc, String text, Color bgColor, Color textColor) {
+    return ElevatedButton.icon(
+              onPressed: portal,
+              icon: Image.asset(
+                imgSrc,
+                height: 18,
+              ),
+              label: Text(text),
+              style: ElevatedButton.styleFrom(
+                  fixedSize: Size(280, 40),
+                  primary: bgColor,
+                  onPrimary: textColor,
+                  textStyle: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold
+                  ),
+              ),
+          );
   }
 }
