@@ -37,6 +37,9 @@ dependencies:
   # sign_in_button
   flutter_signin_button: ^2.0.0
 
+  # icon
+  flutter_launcher_icons: ^0.9.2
+
 
 
 dev_dependencies:
@@ -50,3 +53,9 @@ flutter:
   assets:
     - assets/images/kakao_login_medium_narrow.png
     - assets/images/kakao_login_medium_wide.png
+    - assets/icon/icon_kakao.png
+    - assets/icon/icon_naver.png
+    - assets/icon/icon_google.png
+    - assets/icon/icon_facebook.png
+    - assets/icon/icon_email.png
+    - assets/icon/icon_guest.png
