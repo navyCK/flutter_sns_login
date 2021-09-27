@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sns_login/home.dart';
 import 'package:flutter_sns_login/screen/main_screen.dart';
 import 'package:flutter_sns_login/screen/login_screen.dart';
 import 'package:kakao_flutter_sdk/all.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => App(),
         '/login': (context) => LoginScreen(),
         '/main': (context) => MainScreen(),
+        '/home': (context) => Home(),
       },
     );
   }
