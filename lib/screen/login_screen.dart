@@ -17,17 +17,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _isDialogVisible = false; // 다이얼로그 visible
 
-  void _showDialog() {
-    setState(() {
-      _isDialogVisible = true;
-    });
-    Future.delayed(Duration(seconds: 2), () {
-      setState(() {
-        _isDialogVisible = false;
-      });
-    });
-  }
-
   void _onLoading() {
     showDialog(
       context: context,
@@ -58,6 +47,11 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pop(context); //pop dialog
       // _login();
     });
+  }
+
+  void _signGuest() {
+    _onLoading();
+    FirebaseAuth.instance.signInAnonymously();
   }
 
   Future<UserCredential> signInWithGoogle() async {
@@ -173,6 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   signInWithFacebook, "assets/icon/icon_facebook.png", "페이스북 로그인", Color(0xff3B5998), Colors.white
               ),
 
+              // 테스트 모드에선 오류 발생 - 이메일 필수 동의가 아니기 때문에 정식 출시 시 이메일 필수 동의하기.
               buildElevatedButton(
                   signInWithKaKao, "assets/icon/icon_kakao.png", "카카오 로그인", Color(0xffFEE500), Colors.black87
               ),
@@ -181,21 +176,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   signInWithNaver, "assets/icon/icon_naver.png", "네이버 로그인", Color(0xff1DC800), Colors.white
               ),
 
-              buildElevatedButton(
-                  _showDialog, "assets/icon/icon_email.png", "이메일 로그인", Color(0xff000000), Colors.white
-              ),
-
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Text("또는"),
               ),
 
               buildElevatedButton(
-                  _showDialog, "assets/icon/icon_guest.png", "게스트로 이용", Color(0xffDCDCDC), Colors.black87
+                  _signGuest, "assets/icon/icon_guest.png", "게스트로 이용", Color(0xffDCDCDC), Colors.black87
               ),
-
-
-
 
               Visibility(
                   visible: _isDialogVisible,
@@ -206,7 +194,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: EdgeInsets.all(10.0),
                       child: CircularProgressIndicator(),
                     ),
-                  ))
+                  )
+              )
             ],
           ),
         ),
