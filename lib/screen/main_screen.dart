@@ -25,6 +25,32 @@ class _MainScreenState extends State<MainScreen> {
           if (!snapshot.hasData) {
             print("로그인을 해주세요.");
             return IntroScreen();
+          } else if (snapshot.data!.displayName == null || snapshot.data!.displayName == "") {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("게스트님 환영합니다."),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: CupertinoButton(
+                        color: Colors.blue,
+                        onPressed: _signOut,
+                        child: Text(
+                          '로그아웃',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
           } else {
             return Center(
               child: Column(
