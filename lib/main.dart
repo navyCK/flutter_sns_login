@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sns_login/home.dart';
 import 'package:flutter_sns_login/screen/main_screen.dart';
 import 'package:flutter_sns_login/screen/login_screen.dart';
+import 'package:flutter_sns_login/screen/splash_screen.dart';
 import 'package:kakao_flutter_sdk/all.dart';
-import 'app.dart';
 
 void main() {
   KakaoContext.clientId = "1128cbbb1c703ee9eaa67949532000be";
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => App(),
+        '/': (context) => SplashScreen(),
         '/login': (context) => LoginScreen(),
         '/main': (context) => MainScreen(),
         '/home': (context) => Home(),
