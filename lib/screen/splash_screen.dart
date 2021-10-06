@@ -30,6 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     return Container(
       decoration: BoxDecoration(
+        color: Colors.white,
         image: DecorationImage(
             image: AssetImage('assets/icon/icon_bible.png'), fit: BoxFit.none),
       ),
