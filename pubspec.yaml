@@ -57,6 +57,7 @@ flutter:
   assets:
     - assets/images/kakao_login_medium_narrow.png
     - assets/images/kakao_login_medium_wide.png
+    - assets/images/background1.png
     - assets/icon/icon_kakao.png
     - assets/icon/icon_naver.png
     - assets/icon/icon_google.png
